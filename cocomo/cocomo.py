@@ -15,6 +15,7 @@ import sys
 
 
 def main():
+    logging.basicConfig(level=logging.INFO)
     projectfolder = sys.argv[1]
     with open(os.path.join(projectfolder, 'cocomo.yaml'), 'r') as f:
         data = yaml.load(f)
@@ -114,5 +115,4 @@ def main():
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
     main()
