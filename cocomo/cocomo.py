@@ -21,6 +21,11 @@ def main():
         data = yaml.load(f)
         logging.info("Got COCOMO parameters")
 
+    if 'folders' in data.keys():
+        folders = [os.path.join(projectfolder, x) for x in data['folders']]
+    else:
+        folders = [projectfolder]
+
     headers = ('Very Low', 'Low', 'Nominal', 'High', 'Very High', 'Extra High')
 
     corrective_factors = {'RELY': (0.75, 0.88, 1.0, 1.15, 1.40, None),
@@ -91,7 +96,6 @@ def main():
                     else:
                         state = 'before'
                         for idxi, header in enumerate(headers):
-
                             if idxi == idx:
                                 state = 'after'
                             elif corrective_factors[k][idxi] is not None and state == 'after':
@@ -109,8 +113,10 @@ def main():
     command = ['sloccount',
                '--effort', str(effort), str(effort_exponent),
                '--schedule', str(schedule), str(schedule_exponent),
-               projectfolder]
-    print command
+               '--']
+    command += folders
+    logging.info('Running command : ')
+    logging.info(' '.join(command))
     subprocess.call(command)
 
 
