@@ -14,7 +14,7 @@ def read(fname):
 
 setup(
     name="cocomo",
-    version="0.2",
+    version="0.3",
     author="Chintalagiri Shashank",
     author_email="shashank@chintal.in",
     description="Simple wrapper around SLOCCount",

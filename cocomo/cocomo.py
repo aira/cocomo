@@ -26,6 +26,10 @@ def main():
     else:
         folders = [projectfolder]
 
+    addlangs = None
+    if 'addlang' in data.keys():
+        addlangs = data['addlang']
+
     headers = ('Very Low', 'Low', 'Nominal', 'High', 'Very High', 'Extra High')
 
     corrective_factors = {'RELY': (0.75, 0.88, 1.0, 1.15, 1.40, None),
@@ -115,6 +119,9 @@ def main():
                '--schedule', str(schedule), str(schedule_exponent),
                '--']
     command += folders
+    if addlangs:
+        for lang in addlangs:
+            command += ['--addlang', lang]
     logging.info('Running command : ')
     logging.info(' '.join(command))
     subprocess.call(command)
