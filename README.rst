@@ -13,13 +13,22 @@ Dependencies
 - python
 - sloccount
 
-On Mac `brew install sloccount`
+On Mac
 
-On Debian `apt-get install sloccount`
+    brew install sloccount
 
-On Redhat `yum install sloccount`
+On Debian
 
-On Windows compile from source (see the gz file in this directory)
+    apt-get install sloccount
+
+On Redhat
+
+    yum install sloccount
+
+On Windows
+
+Good luck with that: compile from source (see the tar.gz file in this directory)
+
 
 Installation
 ============
