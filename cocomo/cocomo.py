@@ -16,10 +16,17 @@ import sys
 
 def main():
     logging.basicConfig(level=logging.INFO)
-    projectfolder = sys.argv[1]
-    with open(os.path.join(projectfolder, 'cocomo.yaml'), 'r') as f:
-        data = yaml.load(f)
-        logging.info("Got COCOMO parameters")
+    projectfolder = os.path.abspath(os.path.expanduser(
+        sys.argv[1] if len(sys.argv) > 1 else os.path.curdir))
+    try:
+        with open(os.path.join(projectfolder, 'cocomo.yaml'), 'r') as f:
+            data = yaml.load(f)
+            logging.info("Got COCOMO parameters")
+    except IOError:
+        data = {}
+        data['addlangs'] = ['python']
+        data['type'] = 'basic'
+        data['mode'] = 'SEMIDETACHED'
 
     if 'folders' in data.keys():
         folders = [os.path.join(projectfolder, x) for x in data['folders']]
@@ -48,6 +55,8 @@ def main():
                           'TOOL': (1.24, 1.10, 1.0, 0.91, 0.83, None),
                           'SCED': (1.23, 1.08, 1.0, 1.04, 1.10, None)}
 
+    corrective_factors = data.get('corrective_factors', corrective_factors)
+
     effort = 2.4
     effort_exponent = 1.05
     schedule = 2.5
@@ -58,7 +67,7 @@ def main():
         if data['type'] == 'basic':
             logging.info("Basic Mode")
             if 'mode' in data.keys():
-                if data['mode'] == 'ORGANIC':
+                if data['mode'].upper() == 'ORGANIC':
                     effort = 2.4
                     effort_exponent = 1.05
                     schedule = 2.5
